@@ -5,29 +5,42 @@ import * as C from "./styles";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png"
 import { Header } from "../../components/Header";
+import { signup } from "../../services/auth";
 
+
+interface ApiResponse {
+  msg:string
+}
 const Signup = () => {
+  const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
-  const [emailConf, setEmailConf] = useState("");
   const [senha, setSenha] = useState("");
+  const [passConf, setPassConf] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
 
-  const handleSignup = () => {
-    if (!email || !emailConf || !senha) {
-      setError("Preencha todos os campos");
-      return;
-    } else if (email !== emailConf) {
-      setError("Os e-mails não são iguais");
-      return;
+  const handleSignup = async () => {
+    try {
+      if (!email || !senha) {
+        setError("Preencha todos os campos");
+        return;
+      }
+  
+      const response = await signup.post<ApiResponse>('/', {
+        name:user,
+        email: email,
+        password: senha,
+        confirmPassword:passConf
+      });
+  
+      alert("Usuário cadatrado com sucesso!");
+      console.log(response.data.msg)
+  
+      navigate("/");
+    } catch (error) {
+      console.error('Erro na requisição:', error);
     }
-
-
-    
-
-    alert("Usuário cadatrado com sucesso!");
-    navigate("/");
   };
 
   return (
@@ -38,14 +51,14 @@ const Signup = () => {
         <Input
           type="text"
           placeholder="Digite seu nome"
-          value={email}
-          onChange={(e) => [setEmail(e.target.value), setError("")]}
+          value={user}
+          onChange={(e) => [setUser(e.target.value), setError("")]}
         />
         <Input
           type="email"
           placeholder="Confirme seu E-mail"
-          value={emailConf}
-          onChange={(e) => [setEmailConf(e.target.value), setError("")]}
+          value={email}
+          onChange={(e) => [setEmail(e.target.value), setError("")]}
         />
         <Input
           type="password"
@@ -56,8 +69,8 @@ const Signup = () => {
          <Input
           type="password"
           placeholder="Confirme sua senha"
-          value={senha}
-          onChange={(e) => [setSenha(e.target.value), setError("")]}
+          value={passConf}
+          onChange={(e) => [setPassConf(e.target.value), setError("")]}
         />
         <C.labelError>{error}</C.labelError>
         <Button text="Inscrever-se" onClick={handleSignup} />

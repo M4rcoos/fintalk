@@ -5,9 +5,14 @@ import * as C from "./styles";
 import { Link, useNavigate } from "react-router-dom";
 import { Header } from "../../components/Header";
 import logo from "../../assets/logo.png"
+import { signin } from "../../services/auth";
 
 
 interface Props {}
+interface ApiResponse {
+  msg: string;
+  token: string;
+}
 
 function Signin(props: Props): ReactElement {
   const navigate = useNavigate();
@@ -16,13 +21,26 @@ function Signin(props: Props): ReactElement {
   const [senha, setSenha] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const handleLogin = () => {
-    if (!email || !senha) {
-      setError("Preencha todos os campos");
-      return;
+  const handleLogin = async (email: string, senha: string) => {
+    try {
+      if (!email || !senha) {
+        setError("Preencha todos os campos");
+        return;
+      }
+  
+      const response = await signin.post<ApiResponse>('/', {
+        email: email,
+        password: senha
+      });
+  
+      const { token } = response.data;
+      const { msg } = response.data
+      console.log(response.data )
+  
+      navigate("/home");
+    } catch (error) {
+      console.error('Erro na requisição:', error);
     }
-
-    navigate("/home");
   };
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +71,7 @@ function Signin(props: Props): ReactElement {
           onChange={handleSenhaChange}
         />
         <C.labelError>{error}</C.labelError>
-        <Button text="Entrar" onClick={handleLogin} />
+        <Button text="Entrar" onClick={()=>handleLogin(email,senha)} />
         <C.LabelSignup>
           Não tem uma conta?
           <C.Strong>
