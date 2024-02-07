@@ -1,11 +1,11 @@
-import React from "react";
+import React, { ChangeEvent, HTMLInputTypeAttribute } from "react";
 import * as C from "./styles";
 
 type InputProps= {
-  type: string;
+  type: HTMLInputTypeAttribute ;
   placeholder: string;
   value: string;
-  onChange:() => void;
+  onChange:(e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input = ({ type, placeholder, value, onChange }: InputProps) => {

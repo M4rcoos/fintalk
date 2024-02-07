@@ -1,48 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, ReactElement } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import * as C from "./styles";
 import { Link, useNavigate } from "react-router-dom";
+import { Header } from "../../components/Header";
+import logo from "../../assets/logo.png"
 
-const Signin = () => {
-  const { signin } = useAuth();
+
+interface Props {}
+
+function Signin(props: Props): ReactElement {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [senha, setSenha] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   const handleLogin = () => {
-    if (!email | !senha) {
+    if (!email || !senha) {
       setError("Preencha todos os campos");
-      return;
-    }
-
-    const res = signin(email, senha);
-
-    if (res) {
-      setError(res);
       return;
     }
 
     navigate("/home");
   };
 
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    setError("");
+  };
+
+  const handleSenhaChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSenha(e.target.value);
+    setError("");
+  };
+
   return (
     <C.Container>
-      <C.Label>SISTEMA DE LOGIN</C.Label>
+      <Header imagePath={logo}/>
       <C.Content>
+      <C.Label> LOGIN</C.Label>
         <Input
           type="email"
           placeholder="Digite seu E-mail"
           value={email}
-          onChange={(e) => [setEmail(e.target.value), setError("")]}
+          onChange={handleEmailChange}
         />
         <Input
           type="password"
           placeholder="Digite sua Senha"
           value={senha}
-          onChange={(e) => [setSenha(e.target.value), setError("")]}
+          onChange={handleSenhaChange}
         />
         <C.labelError>{error}</C.labelError>
         <Button text="Entrar" onClick={handleLogin} />
@@ -55,6 +63,6 @@ const Signin = () => {
       </C.Content>
     </C.Container>
   );
-};
+}
 
 export default Signin;
