@@ -10,24 +10,21 @@ interface Message {
 }
 
 export const Home = ({ messages }: { messages: Message[] }) => {
-  const [newMessage, setNewMessage] = useState<Message | string> ({user:"Marcos", text: "oie"});
+  const [newMessage, setNewMessage] = useState<Message | string>({
+    user: "Marcos",
+    text: "oie",
+  });
   const navigate = useNavigate();
 
   const handleSendMessage = () => {
-   
     console.log(`Mensagem enviada: ${newMessage}`);
-   
+
     setNewMessage("");
   };
 
   return (
     <C.Container>
-      <C.Title>Home</C.Title>
-
-      <Button text="Sair" onClick={() => navigate("/")}>
-        Sair
-      </Button>
-
+      <C.Title>Nome da sala</C.Title>
       <C.ChatContainer>
         {messages.map((message, index) => (
           <C.MessageContainer
@@ -37,18 +34,23 @@ export const Home = ({ messages }: { messages: Message[] }) => {
             <C.UserLabel>{message.user}:</C.UserLabel> {message.text}
           </C.MessageContainer>
         ))}
-         <C.MessageInputContainer>
-        <C.MessageInput
-          type="text"
-          placeholder="Digite sua mensagem..."
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-        />
-        <C.SendButton onClick={handleSendMessage}>Enviar</C.SendButton>
-      </C.MessageInputContainer>
+        <C.MessageInputContainer>
+          <C.MessageInput
+            type="text"
+            placeholder="Digite sua mensagem..."
+            value={""}
+            onChange={(e) => setNewMessage(e.target.value)}
+          />
+          <C.SendButton onClick={handleSendMessage}>Enviar</C.SendButton>{" "}
+          <C.SendButtonDelete onClick={handleSendMessage}>
+            Excluir Participante
+          </C.SendButtonDelete>
+        </C.MessageInputContainer>
       </C.ChatContainer>
 
-     
+      <Button text="Sair" onClick={() => navigate("/")}>
+        Sair
+      </Button>
     </C.Container>
   );
 };

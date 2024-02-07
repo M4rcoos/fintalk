@@ -22,10 +22,15 @@ const Signup = () => {
 
   const handleSignup = async () => {
     try {
-      if (!email || !senha) {
+      if (!email || !senha || !user || !passConf) {
         setError("Preencha todos os campos");
         return;
       }
+      if (senha != passConf) {
+        setError("As senhas devem ser iguais");
+        return;
+      }
+  
   
       const response = await signup.post<ApiResponse>('/', {
         name:user,
