@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {Home} from "../screens/home";
 import Signin from "../screens/Signin";
 import Signup from "../screens/Signup";
+import indexPage from "../screens/Signup";
+import AuthProvider from "../context/auth";
 const messages = [
   { user: 'user1', text: 'Olá, como você está?' },
   { user: 'user2', text: 'Oi! Estou bem, obrigado!' },
@@ -11,14 +13,17 @@ const messages = [
 const RoutesApp: React.FC = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/home" element={<Home messages={messages}/>}>
+     <AuthProvider>
+     <Routes>
+        <Route path="/home" element={<Home messages={messages} />}>
           <Route index element={<Home messages={messages}/>} />
         </Route>
         <Route path="/" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<Signin />} />
       </Routes>
+  </AuthProvider>
+     
     </BrowserRouter>
   );
 };

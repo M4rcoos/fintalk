@@ -4,7 +4,7 @@ import GlobalStyle from "./styles/global";
 
 const App = () => (
   <>
-  
+ 
      <RoutesApp />
     <GlobalStyle />
   </>

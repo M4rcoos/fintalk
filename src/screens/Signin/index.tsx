@@ -1,47 +1,21 @@
-import React, { useState, ChangeEvent, ReactElement } from "react";
+import React, { useState, ChangeEvent, ReactElement, useContext} from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import * as C from "./styles";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Header } from "../../components/Header";
 import logo from "../../assets/logo.png"
-import { signin } from "../../services/auth";
+import {AuthContext } from "../../context/auth"
 
 
-interface Props {}
-interface ApiResponse {
-  msg: string;
-  token: string;
-}
+function Signin(): ReactElement {
 
-function Signin(props: Props): ReactElement {
-  const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  
 
-  const handleLogin = async (email: string, senha: string) => {
-    try {
-      if (!email || !senha) {
-        setError("Preencha todos os campos");
-        return;
-      }
-  
-      const response = await signin.post<ApiResponse>('/', {
-        email: email,
-        password: senha
-      });
-  
-      const { token } = response.data;
-      const { msg } = response.data
-      console.log(response.data )
-  
-      navigate("/home");
-    } catch (error) {
-      console.error('Erro na requisição:', error);
-    }
-  };
+  const {handleLogin,error,setError}=useContext(AuthContext)
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);

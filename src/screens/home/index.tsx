@@ -1,8 +1,10 @@
 // ChatComponent.tsx
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import * as C from "./styles";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
+import {AuthContext} from '../../context/auth'
+
 
 interface Message {
   user: string;
@@ -10,6 +12,7 @@ interface Message {
 }
 
 export const Home = ({ messages }: { messages: Message[] }) => {
+  const {user} = useContext(AuthContext)
   const [newMessage, setNewMessage] = useState<Message | string>({
     user: "Marcos",
     text: "oie",
@@ -24,7 +27,7 @@ export const Home = ({ messages }: { messages: Message[] }) => {
 
   return (
     <C.Container>
-      <C.Title>Nome da sala</C.Title>
+      <C.Title>Admin: {user}</C.Title>
       <C.ChatContainer>
         {messages.map((message, index) => (
           <C.MessageContainer
