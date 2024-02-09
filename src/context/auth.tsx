@@ -7,6 +7,7 @@ interface AuthContextProps {
   error:string
   handleLogin: (email: string, senha: string) => void;
   setError: React.Dispatch<React.SetStateAction<string>>
+  setUser: React.Dispatch<React.SetStateAction<string>>
 }
 
 interface ApiResponse {
@@ -19,7 +20,8 @@ export const AuthContext = createContext<AuthContextProps>({
     user: "",
     handleLogin: () => {},
     error:"",
-    setError: () => {}
+    setError: () => {},
+    setUser:()=>{}
 });
 
 function AuthProvider({ children }: { children: ReactNode }) {
@@ -38,8 +40,8 @@ function AuthProvider({ children }: { children: ReactNode }) {
         email: email,
         password: senha,
       }).then(response => {
-        setUser(response.data.user);
-        localStorage.setItem('token', response.data.token)
+        setUser(response.data.token);
+        localStorage.setItem('token', response.data.user)
         navigate('/home')
       }).catch(error => {
         if (error.response && error.response.data && error.response.data.msg) {
@@ -53,7 +55,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, handleLogin ,error,setError}}>
+    <AuthContext.Provider value={{ setUser ,user, handleLogin ,error,setError}}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,59 +1,89 @@
-// ChatComponent.tsx
-import React, { useState,useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import { chatRoom } from "../../services/auth";
+
 import * as C from "./styles";
 import Button from "../../components/Button";
-import { useNavigate } from "react-router-dom";
-import {AuthContext} from '../../context/auth'
 
-
-interface Message {
-  user: string;
-  text: string;
+interface Chatroom {
+  _id: string;
+  name: string;
+  // Adicione outros campos conforme necessário
 }
 
-export const Home = ({ messages }: { messages: Message[] }) => {
-  const {user} = useContext(AuthContext)
-  const [newMessage, setNewMessage] = useState<Message | string>({
-    user: "Marcos",
-    text: "oie",
-  });
-  const navigate = useNavigate();
+export const Home = () => {
+  const [chatrooms, setChatrooms] = useState<Chatroom[]>([]);
 
-  const handleSendMessage = () => {
-    console.log(`Mensagem enviada: ${newMessage}`);
-
-    setNewMessage("");
+  const getChatrooms = async () => {
+    try {
+      const response = await chatRoom.get<Chatroom[]>("/");
+      setChatrooms(response.data);
+    } catch (error) {
+      console.error("Error fetching chatrooms:", error);
+    }
   };
+
+  useEffect(() => {
+    getChatrooms();
+  }, [chatrooms]);
+
+  const createChatroom = async () => {
+    const chatroomName = chatroomNameRef.current?.value;
+  
+    try {
+      const response = await chatRoom.post("/", { name: chatroomName });
+  
+      if (response.status === 200) {
+        getChatrooms();
+        chatroomNameRef.current && (chatroomNameRef.current.value = "");
+      } else {
+        console.error("Erro ao criar chatroom. Status:", response.status);
+      }
+    } catch (error) {
+      console.error("Erro ao criar chatroom:", error);
+  
+      if (error instanceof Error) {
+        if (error.message.includes("Network Error")) {
+        } else {
+        }
+      } else {
+        console.error("Erro desconhecido:", error);
+      }
+    }
+  };
+  
+  
+
+  const chatroomNameRef = useRef<HTMLInputElement>(null);
 
   return (
     <C.Container>
-      <C.Title>Admin: {user}</C.Title>
-      <C.ChatContainer>
-        {messages.map((message, index) => (
-          <C.MessageContainer
-            key={index}
-            isUserMessage={message.user === "user1"}
-          >
-            <C.UserLabel>{message.user}:</C.UserLabel> {message.text}
-          </C.MessageContainer>
-        ))}
-        <C.MessageInputContainer>
-          <C.MessageInput
-            type="text"
-            placeholder="Digite sua mensagem..."
-            value={""}
-            onChange={(e) => setNewMessage(e.target.value)}
-          />
-          <C.SendButton onClick={handleSendMessage}>Enviar</C.SendButton>{" "}
-          <C.SendButtonDelete onClick={handleSendMessage}>
-            Excluir Participante
-          </C.SendButtonDelete>
-        </C.MessageInputContainer>
-      </C.ChatContainer>
-
-      <Button text="Sair" onClick={() => navigate("/")}>
-        Sair
-      </Button>
+      <C.Card>
+        <C.CardHeader>Grupos de Chat</C.CardHeader>
+        <C.CardBody>
+          <C.InputGroup>
+            <C.Label htmlFor="chatroomName">Nome do Grupo</C.Label>
+            <C.Input
+              type="text"
+              name="chatroomName"
+              id="chatroomName"
+              ref={chatroomNameRef}
+              placeholder="Nome do Grupo"
+            />
+          </C.InputGroup>
+        </C.CardBody>
+        <Button text="Criar Grupo" onClick={createChatroom} />
+        <C.ChatroomsContainer>
+          {chatrooms.map((chatroom) => (
+            <C.ChatroomItem key={chatroom._id}>
+              <div>{chatroom.name}</div>
+              <C.StyledLink to={`/chatroom/${chatroom._id}`}>
+                <C.JoinButton>Entrar</C.JoinButton>
+              </C.StyledLink>
+            </C.ChatroomItem>
+          ))}
+        </C.ChatroomsContainer>
+      </C.Card>
     </C.Container>
   );
 };

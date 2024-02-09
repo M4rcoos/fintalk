@@ -1,106 +1,103 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-interface MessageContainerProps {
-  isUserMessage: boolean;
-}
+const breakpointMobile = "375px";
 
 export const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 100vh;
-  gap: 20px;
+  font-family: 'Montserrat';
+  box-sizing: border-box;
+  color: #333;
 `;
 
-export const Title = styled.h2``;
-
-export const ChatContainer = styled.div`
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 8px;
+export const Card = styled.div`
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  border-radius: 4px;
+  padding: 1rem;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 90%; /* Alterado para 90% para se ajustar melhor em telas menores */
+  max-width: 400px; /* Adicionado uma largura máxima */
+  transform: translate(-50%, -50%);
 `;
 
-export const RoomList = styled.div`
-  margin-bottom: 10px;
+export const CardHeader = styled.div`
+  background: var(--color-primary);
+  padding: 0.75rem 1.5rem;
+  border-radius: 2px;
+  text-transform: uppercase;
+  transform: skewY(-4deg);
+  font-size: 1.1rem;
+  font-weight: bold;
+  display: inline-block;
+  position: absolute;
+  top: -1rem;
+  left: -0.75rem;
+  color: #fff;
 `;
 
-export const RoomListTitle = styled.h3`
-  font-size: 16px;
-  margin-bottom: 5px;
+export const CardBody = styled.div`
+  margin-top: 2rem;
 `;
 
-export const RoomListItem = styled.div`
-  font-size: 14px;
-  margin-bottom: 3px;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
+export const InputGroup = styled.div`
+  margin-bottom: 1rem;
+`;
+
+export const Label = styled.label`
+  font-size: 0.9rem;
+`;
+
+export const Input = styled.input`
+  border: none;
+  padding: 0.5rem 0.1rem;
+  width: 100%;
+  border-radius: 2px;
+  border-bottom: 1px solid #eee;
+  transition: all 0.5s;
+
+  &:focus {
+    border-bottom: 1px solid #ccc;
   }
 `;
 
-export const CreateRoomContainer = styled.div`
-  margin-bottom: 10px;
-`;
-
-export const CreateRoomInput = styled.input`
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 5px;
-`;
-
-export const CreateRoomButton = styled.button`
-  width: 100%;
-  padding: 8px;
-  background-color: #4caf50;
-  color: #fff;
+export const StyledButton = styled.button`
+  background: var(--color-primary);
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  border-radius: 2px;
+  width: 100%;
+  text-transform: uppercase;
+  color: #fff;
 `;
 
-export const MessageContainer = styled.div<MessageContainerProps>`
-  margin-bottom: 10px;
-  padding: 8px;
-  border-radius: 5px;
-  background-color: ${(props) => (props.isUserMessage ? '#e1f7d5' : '#fff')};
+export const ChatroomsContainer = styled.div`
+  margin-top: 1rem;
 `;
 
-export const UserLabel = styled.span`
-  font-weight: bold;
-  margin-right: 5px;
-`;
-
-export const MessageInputContainer = styled.div`
+export const ChatroomItem = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
-  gap:20px;
+  margin-bottom: 1rem;
 `;
 
-export const MessageInput = styled.input`
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 10px;
+export const JoinButton = styled.div`
+  background: var(--color-primary);
+  padding: 0.25rem 1rem;
+  border-radius: 2px;
+  color: #fff;
 `;
 
-export const SendButton = styled.button`
-  padding: 8px;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+export const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #333;
 `;
-export const SendButtonDelete = styled.button`
-  padding: 8px;
-  background-color: var(--color-primary);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+
+// Media Query para dispositivos móveis
+export const MobileMediaQuery = styled.div`
+  @media only screen and (max-width: ${breakpointMobile}) {
+    width: 90%;
+    max-width: 375px;
+  }
 `;

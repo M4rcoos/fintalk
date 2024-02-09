@@ -10,3 +10,8 @@ export const signup = axios.create({
     timeout: 100000,
   })
   
+  
+export const chatRoom = axios.create({
+  baseURL: "http://localhost:3000/chatroom",
+  timeout: 100000,
+})
