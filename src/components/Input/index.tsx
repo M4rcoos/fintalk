@@ -8,7 +8,7 @@ type InputProps= {
   onChange:(e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input = ({ type, placeholder, value, onChange }: InputProps) => {
+export const Input = ({ type, placeholder, value, onChange }: InputProps) => {
   return (
     <C.Input
       value={value}
@@ -19,4 +19,4 @@ const Input = ({ type, placeholder, value, onChange }: InputProps) => {
   );
 };
 
-export default Input;
+

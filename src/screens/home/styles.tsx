@@ -89,7 +89,7 @@ export const JoinButton = styled.div`
   color: #fff;
 `;
 
-export const StyledLink = styled(Link)`
+export const StyledLink = styled.button`
   text-decoration: none;
   color: #333;
 `;

@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+
 import { chatRoom } from "../../services/auth";
 
 import * as C from "./styles";
 import Button from "../../components/Button";
+import { useNavigate } from "react-router-dom";
 
 interface Chatroom {
   _id: string;
@@ -13,6 +14,7 @@ interface Chatroom {
 
 export const Home = () => {
   const [chatrooms, setChatrooms] = useState<Chatroom[]>([]);
+  const navigate = useNavigate();
 
   const getChatrooms = async () => {
     try {
@@ -37,10 +39,10 @@ export const Home = () => {
         getChatrooms();
         chatroomNameRef.current && (chatroomNameRef.current.value = "");
       } else {
-        console.error("Erro ao criar chatroom. Status:", response.status);
+        console.error("Erro ao criar grupo. Status:", response.status);
       }
     } catch (error) {
-      console.error("Erro ao criar chatroom:", error);
+      console.error("Erro ao criar grupo:", error);
   
       if (error instanceof Error) {
         if (error.message.includes("Network Error")) {
@@ -77,7 +79,7 @@ export const Home = () => {
           {chatrooms.map((chatroom) => (
             <C.ChatroomItem key={chatroom._id}>
               <div>{chatroom.name}</div>
-              <C.StyledLink to={`/chatroom/${chatroom._id}`}>
+              <C.StyledLink onClick={()=>navigate(`/chatroom/${chatroom._id}/${chatroom.name}`)}>
                 <C.JoinButton>Entrar</C.JoinButton>
               </C.StyledLink>
             </C.ChatroomItem>

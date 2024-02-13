@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Input from "../../components/Input";
+import {Input} from "../../components/Input";
 import Button from "../../components/Button";
 import * as C from "./styles";
 import { Link, useNavigate } from "react-router-dom";
@@ -61,13 +61,13 @@ const Signup = () => {
         />
         <Input
           type="email"
-          placeholder="Confirme seu E-mail"
+          placeholder="Digite seu e-mail"
           value={email}
           onChange={(e) => [setEmail(e.target.value), setError("")]}
         />
         <Input
           type="password"
-          placeholder="Digite sua Senha"
+          placeholder="Digite sua senha"
           value={senha}
           onChange={(e) => [setSenha(e.target.value), setError("")]}
         />

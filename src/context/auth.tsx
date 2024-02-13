@@ -41,7 +41,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
         password: senha,
       }).then(response => {
         setUser(response.data.token);
-        localStorage.setItem('token', response.data.user)
+        localStorage.setItem('token', response.data.token)
         navigate('/home')
       }).catch(error => {
         if (error.response && error.response.data && error.response.data.msg) {
