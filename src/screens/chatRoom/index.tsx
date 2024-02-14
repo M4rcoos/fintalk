@@ -128,7 +128,7 @@ export const ChatRoom = () => {
       </C.ChatroomSection>
 
       <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
-        <h2 style={{ textAlign: 'center', marginBottom: 12 }}>Editar Nome</h2>
+        <h2 style={{ textAlign: 'center', marginBottom: 12 }}>Editar nome da sala</h2>
         <Input
           placeholder="Novo Nome"
           value={newName}
@@ -136,8 +136,8 @@ export const ChatRoom = () => {
           onChange={(e) => setNewName(e.target.value)}
         />
         <div style={{ display: 'flex', gap: 18, marginTop: 12 }}>
-          <Button text="Salvar" onClick={saveNewName}></Button>
-          <Button text="Cancelar" onClick={closeModal}></Button>
+          <Button  text="Salvar" onClick={saveNewName} />
+          <Button text="Cancelar" onClick={closeModal}  />
         </div>
       </Modal>
     </C.ChatroomPageWrapper>

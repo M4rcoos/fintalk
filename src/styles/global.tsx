@@ -16,6 +16,7 @@ const GlobalStyle = createGlobalStyle`
   }
   :root{
     --color-primary: #f3537e;
+    --color-secundary: #545454;
     --color-light-pink: #ff7b9c;
   }
 `;
