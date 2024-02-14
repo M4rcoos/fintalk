@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState, useContext} from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import { Input } from '../../components/Input';
 import { useNavigate, useParams } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
 import Modal from 'react-modal';
-import {AuthContext} from '../../context/auth'
+import { AuthContext } from '../../context/auth';
 
-import * as C  from './styles';
+import * as C from './styles';
 import Button from '../../components/Button';
 import { api } from '../../services/auth';
 
@@ -14,21 +14,24 @@ interface ChatMessage {
   name?: string;
   userId?: string | null;
 }
+
 interface ApiResponse {
-  name:string;
+  name: string;
   msg: string;
 }
+
 Modal.setAppElement('#root');
+
 export const ChatRoom = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [messageInput, setMessageInput] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado do modal
-  const [newName, setNewName] = useState(''); // Novo nome digitado no modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newName, setNewName] = useState('');
   const { _id, name } = useParams();
   const socketRef = useRef<Socket | null>(null);
   const navigate = useNavigate();
 
-  const {setError} = useContext(AuthContext)
+  const { setError } = useContext(AuthContext);
 
   useEffect(() => {
     const newSocket = io('http://localhost:3000/', {
@@ -50,7 +53,7 @@ export const ChatRoom = () => {
 
   const openModal = () => {
     setIsModalOpen(true);
-    setNewName(name || ''); 
+    setNewName(name || '');
   };
 
   const closeModal = () => {
@@ -78,7 +81,11 @@ export const ChatRoom = () => {
     if (socketRef.current && messageInput.trim().length > 0) {
       const userId = localStorage.getItem('userId');
 
-      socketRef.current.emit('chatroomMessage', { _id, message: messageInput, userId });
+      socketRef.current.emit('chatroomMessage', {
+        _id,
+        message: messageInput,
+        userId,
+      });
 
       setMessageInput('');
     }
@@ -89,10 +96,11 @@ export const ChatRoom = () => {
       <C.ChatroomSection>
         <C.CardHeader>
           {name}
-          <C.Edit onClick={openModal} style={{ cursor: 'pointer' }}>
+          
+        </C.CardHeader>
+        <C.Edit onClick={openModal} style={{ cursor: 'pointer' }}>
             📝Editar
           </C.Edit>
-        </C.CardHeader>
         <C.ChatroomContent>
           {messages.map((message, index) => (
             <C.Message key={index}>
@@ -113,25 +121,24 @@ export const ChatRoom = () => {
             type="text"
             onChange={(e) => setMessageInput(e.target.value)}
           />
-          <C.ChatroomActionsButton  onClick={sendMessage}>
+          <C.ChatroomActionsButton onClick={sendMessage}>
             Enviar
           </C.ChatroomActionsButton>
         </C.ChatroomActions>
       </C.ChatroomSection>
 
       <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
-        <h2 style={{textAlign:'center', marginBottom:12}}>Editar Nome</h2>
+        <h2 style={{ textAlign: 'center', marginBottom: 12 }}>Editar Nome</h2>
         <Input
           placeholder="Novo Nome"
           value={newName}
           type="text"
           onChange={(e) => setNewName(e.target.value)}
         />
-        <div style={{display:'flex', gap:18, marginTop:12}}>
-        <Button text='Salvar' onClick={saveNewName}></Button >
-        <Button text='Cancelar' onClick={closeModal}></Button >
+        <div style={{ display: 'flex', gap: 18, marginTop: 12 }}>
+          <Button text="Salvar" onClick={saveNewName}></Button>
+          <Button text="Cancelar" onClick={closeModal}></Button>
         </div>
-       
       </Modal>
     </C.ChatroomPageWrapper>
   );
