@@ -18,7 +18,7 @@ export const ChatroomSection = styled.div`
 `;
 export const ChatroomContent = styled.div`
   position: absolute;
-  top: 2.5rem;
+  top: 3.5rem;
   left: 0;
   right: 0;
   bottom: 3.5rem;
@@ -45,10 +45,12 @@ export const CardHeader = styled.div`
     transform: skewY(-4deg);
     font-size: 1.1rem;
     font-weight: bold;
-    display: inline-block;
+    display: flex;
+    align-items:center;
     position: absolute;
     top: -1rem;
     left: -0.75rem;
+    gap:16px;
 `
   
   
@@ -68,7 +70,13 @@ export const OtherMessage = styled.span`
   color: #0099cc;
   font-weight: bold;
 `;
-export const OwnMessage = styled.span`
+export const MyMessage = styled.span`
   color: #00cc00;
   font-weight: bold;
+`;
+export const Edit = styled.span`
+   text-transform: lowercase;
+   padding: 8px;
+   border: 1px solid #101010;
+   border-radius: 8px ;
 `;

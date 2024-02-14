@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 interface Chatroom {
   _id: string;
   name: string;
-  // Adicione outros campos conforme necessário
+  
 }
 
 export const Home = () => {
@@ -54,8 +54,6 @@ export const Home = () => {
     }
   };
   
-  
-
   const chatroomNameRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -64,7 +62,6 @@ export const Home = () => {
         <C.CardHeader>Grupos de Chat</C.CardHeader>
         <C.CardBody>
           <C.InputGroup>
-            <C.Label htmlFor="chatroomName">Nome do Grupo</C.Label>
             <C.Input
               type="text"
               name="chatroomName"

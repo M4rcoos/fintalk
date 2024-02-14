@@ -1,89 +1,135 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Input } from "../../components/Input";
-import { useParams } from "react-router-dom";
-import { Socket } from 'socket.io-client';
-import io from 'socket.io-client';
+import React, { useEffect, useRef, useState, useContext} from 'react';
+import { Input } from '../../components/Input';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import io, { Socket } from 'socket.io-client';
+import Modal from 'react-modal';
+import {AuthContext} from '../../context/auth'
 
-import {
-  CardHeader,
-  ChatroomActions,
-  ChatroomActionsButton,
-  ChatroomContent,
-  ChatroomPageWrapper,
-  ChatroomSection,
-  Message,
-  OtherMessage,
-} from "./styles";
-
-interface Chatroom {
-  _id: string;
-  name: string;
-  // Adicione outros campos conforme necessário
-}
+import * as C  from './styles';
+import Button from '../../components/Button';
+import { update } from '../../services/auth';
 
 interface ChatMessage {
   message: string;
+  name?: string;
+  userId?: string | null;
 }
-
+interface ApiResponse {
+  name:string;
+  msg: string;
+}
+Modal.setAppElement('#root');
 export const ChatRoom = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [messageInput, setMessageInput] = useState<string>("");
+  const [messageInput, setMessageInput] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado do modal
+  const [newName, setNewName] = useState(''); // Novo nome digitado no modal
   const { _id, name } = useParams();
+  const socketRef = useRef<Socket | null>(null);
+  const navigate = useNavigate();
 
-  const [socket, setSocket] = useState<Socket | null>(null);
+  const {setError} = useContext(AuthContext)
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3000/", {
+    const newSocket = io('http://localhost:3000/', {
       query: {
-        token: localStorage.getItem("token"),
+        token: localStorage.getItem('token'),
       },
     });
 
-    newSocket.on("newMessage", (newMessage: ChatMessage) => {
+    newSocket.on('newMessage', (newMessage: ChatMessage) => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
 
-    setSocket(newSocket);
+    socketRef.current = newSocket;
 
     return () => {
       newSocket.disconnect();
     };
   }, []);
 
-  const sendMessage = () => {
-    if (socket) {
-      socket.emit("chatroomMessage", {
-        _id,
-        message: messageInput,
-      });
+  const openModal = () => {
+    setIsModalOpen(true);
+    setNewName(name || ''); 
+  };
 
-      setMessageInput(""); // Limpar a mensagem após o envio
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const saveNewName = async () => {
+    await update.put<ApiResponse>(`/Chatroom/${_id}`, {
+      name: newName,
+    }).then(response => {
+      setNewName(response.data.name);
+  
+    }).catch(error => {
+      if (error.response && error.response.data && error.response.data.msg) {
+        setError(error.response.data.msg);
+      } else {
+        setError("Erro na requisição");
+      }
+    });
+ navigate('/home')
+    closeModal();
+  };
+
+  const sendMessage = () => {
+    if (socketRef.current && messageInput.trim().length > 0) {
+      const userId = localStorage.getItem('userId');
+
+      socketRef.current.emit('chatroomMessage', { _id, message: messageInput, userId });
+
+      setMessageInput('');
     }
   };
 
   return (
-    <ChatroomPageWrapper>
-      <ChatroomSection>
-        <CardHeader>{name}</CardHeader>
-        <ChatroomContent>
+    <C.ChatroomPageWrapper>
+      <C.ChatroomSection>
+        <C.CardHeader>
+          {name}
+          <C.Edit onClick={openModal} style={{ cursor: 'pointer' }}>
+            📝Editar
+          </C.Edit>
+        </C.CardHeader>
+        <C.ChatroomContent>
           {messages.map((message, index) => (
-            <Message key={index}>
-              <OtherMessage>{message.message}</OtherMessage>
-            </Message>
+            <C.Message key={index}>
+              {message.userId === localStorage.getItem('userId') ? (
+                <C.MyMessage>Você: {message.message}</C.MyMessage>
+              ) : (
+                <C.OtherMessage>
+                  {message.name}: {message.message}
+                </C.OtherMessage>
+              )}
+            </C.Message>
           ))}
-        </ChatroomContent>
-        <ChatroomActions>
+        </C.ChatroomContent>
+        <C.ChatroomActions>
           <Input
-            placeholder={"Escreva a Mensagem"}
+            placeholder="Digite sua mensagem"
             value={messageInput}
-            type=""
+            type="text"
             onChange={(e) => setMessageInput(e.target.value)}
           />
-          <ChatroomActionsButton className="join" onClick={sendMessage}>
-            Send
-          </ChatroomActionsButton>
-        </ChatroomActions>
-      </ChatroomSection>
-    </ChatroomPageWrapper>
+          <C.ChatroomActionsButton  onClick={sendMessage}>
+            Enviar
+          </C.ChatroomActionsButton>
+        </C.ChatroomActions>
+      </C.ChatroomSection>
+
+      <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
+        <h2>Editar Nome</h2>
+        <Input
+          placeholder="Novo Nome"
+          value={newName}
+          type="text"
+          onChange={(e) => setNewName(e.target.value)}
+        />
+        <Button text='Salvar' onClick={saveNewName}></Button >
+        <Button text='Cancelar' onClick={closeModal}></Button >
+      </Modal>
+    </C.ChatroomPageWrapper>
   );
 };

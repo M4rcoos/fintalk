@@ -85,13 +85,16 @@ export const ChatroomItem = styled.div`
 export const JoinButton = styled.div`
   background: var(--color-primary);
   padding: 0.25rem 1rem;
-  border-radius: 2px;
+  border-radius: 4px;
   color: #fff;
+  border: none;
+
 `;
 
 export const StyledLink = styled.button`
   text-decoration: none;
   color: #333;
+  border: none;
 `;
 
 // Media Query para dispositivos móveis

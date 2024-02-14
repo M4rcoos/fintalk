@@ -15,3 +15,8 @@ export const chatRoom = axios.create({
   baseURL: "http://localhost:3000/chatroom",
   timeout: 100000,
 })
+
+export const update = axios.create({
+  baseURL: "http://localhost:3000",
+  timeout: 100000,
+})

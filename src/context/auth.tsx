@@ -13,6 +13,7 @@ interface AuthContextProps {
 interface ApiResponse {
   msg: string;
   token: string;
+  id:string;
   user: string;
 }
 
@@ -42,6 +43,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
       }).then(response => {
         setUser(response.data.token);
         localStorage.setItem('token', response.data.token)
+        localStorage.setItem('userId', response.data.id);
         navigate('/home')
       }).catch(error => {
         if (error.response && error.response.data && error.response.data.msg) {
