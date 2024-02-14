@@ -1,38 +1,41 @@
 import React, { useContext } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Home } from "../screens/home";
-import {  ChatRoom  } from "../screens/chatRoom"
+import { ChatRoom } from "../screens/chatRoom";
 import Signin from "../screens/Signin";
 import Signup from "../screens/Signup";
-import indexPage from "../screens/Signup";
 import AuthProvider, { AuthContext } from "../context/auth";
 
-const Private = ({ Item }) => {
-  const signed = true;
+const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
+  const { user } = useContext(AuthContext);
 
-  return signed ? <Item /> : <Signin />
-}
+  if (user) {
+    return element;
+  } else {
+    return <Navigate to="/" />;
+  }
+};
+
 const RoutesApp: React.FC = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/home" element={<Private Item={Home} />}>
-            <Route index element={<Home />} />
-          </Route>
-          <Route path="/chatroom/:_id/:name" element={<Private Item={ChatRoom} />}>
-            <Route index element={<Home />} />
-          </Route>
+          <Route
+            path="/home"
+            element={<PrivateRoute element={<Home />} />}
+          />
+          <Route
+            path="/chatroom/:_id/:name"
+            element={<PrivateRoute element={<ChatRoom />} />}
+          />
           <Route path="/" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<Signin />} />
         </Routes>
       </AuthProvider>
-
     </BrowserRouter>
   );
 };
-
-
 
 export default RoutesApp;

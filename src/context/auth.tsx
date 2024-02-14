@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { signin } from "../services/auth";
 
 interface AuthContextProps {
