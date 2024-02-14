@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useState } from "react";
 import {  useNavigate } from "react-router-dom";
-import { signin } from "../services/auth";
+import { api } from "../services/auth";
 
 interface AuthContextProps {
   user: string;
@@ -37,7 +37,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
       
-      signin.post<ApiResponse>("/", {
+      api.post<ApiResponse>("/auth/login", {
         email: email,
         password: senha,
       }).then(response => {

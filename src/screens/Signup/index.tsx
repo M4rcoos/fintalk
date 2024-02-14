@@ -5,7 +5,7 @@ import * as C from "./styles";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png"
 import { Header } from "../../components/Header";
-import { signup } from "../../services/auth";
+import { api } from "../../services/auth";
 
 
 interface ApiResponse {
@@ -32,7 +32,7 @@ const Signup = () => {
       }
   
   
-      const response = await signup.post<ApiResponse>('/', {
+      const response = await api.post<ApiResponse>('/auth/register', {
         name:user,
         email: email,
         password: senha,

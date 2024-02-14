@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { chatRoom } from "../../services/auth";
 
 import * as C from "./styles";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
+import { api } from "../../services/auth";
 
 interface Chatroom {
   _id: string;
@@ -18,7 +18,7 @@ export const Home = () => {
 
   const getChatrooms = async () => {
     try {
-      const response = await chatRoom.get<Chatroom[]>("/");
+      const response = await api.get<Chatroom[]>("/chatroom");
       setChatrooms(response.data);
     } catch (error) {
       console.error("Error fetching chatrooms:", error);
@@ -33,7 +33,7 @@ export const Home = () => {
     const chatroomName = chatroomNameRef.current?.value;
   
     try {
-      const response = await chatRoom.post("/", { name: chatroomName });
+      const response = await api.post("/chatroom", { name: chatroomName });
   
       if (response.status === 200) {
         getChatrooms();
@@ -46,7 +46,7 @@ export const Home = () => {
   
       if (error instanceof Error) {
         if (error.message.includes("Network Error")) {
-        } else {
+          return
         }
       } else {
         console.error("Erro desconhecido:", error);

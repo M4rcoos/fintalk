@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState, useContext} from 'react';
 import { Input } from '../../components/Input';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
 import Modal from 'react-modal';
 import {AuthContext} from '../../context/auth'
 
 import * as C  from './styles';
 import Button from '../../components/Button';
-import { update } from '../../services/auth';
+import { api } from '../../services/auth';
 
 interface ChatMessage {
   message: string;
@@ -58,7 +58,7 @@ export const ChatRoom = () => {
   };
 
   const saveNewName = async () => {
-    await update.put<ApiResponse>(`/Chatroom/${_id}`, {
+    await api.put<ApiResponse>(`/Chatroom/${_id}`, {
       name: newName,
     }).then(response => {
       setNewName(response.data.name);
