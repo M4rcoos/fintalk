@@ -1,30 +1,71 @@
-# React + TypeScript + Vite
+# Projeto de Chat FINTALK-PROCESSO SELETIVO - FULLSTACK
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+## BACKEND
+ [Repositório:](https://github.com/M4rcoos/backfintalk)
+ 1. Clone o repositório.
+2. Abra o projeto no seu ambiente de desenvolvimento.
+3. Instale as dependencias.
+4. Execute no CMD NPM START.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## FRONT
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Clone o repositório.
+2. Abra o projeto no seu ambiente de desenvolvimento.
+3. Instale as dependencias.
+4. Execute no CMD NPM RUN DEV.
 
-- Configure the top-level `parserOptions` property like this:
+## Agradecimentos
+Desde já quero agradecer a oportunidade de fazer parte desse processo, Algo que não consegui finalizar é conversar por sala!
+A mensagem não chegava na sala especificada, decidi mostrar oque está pronto dentro do prazo!
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Descrição
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Bem-vindo ao  projeto de chat FINTALK! Aqui, apresentamos as principais funcionalidades que você encontrará.
+
+### Telas Principais
+
+1. **Tela de Login:**
+   - Faça login com suas credenciais registradas.
+     <p align="center">
+  <img src="src\assets\login.png"/>
+</p>
+
+2. **Registro:**
+   - Crie uma nova conta com as informações necessárias.
+   -    <p align="center">
+  <img src="src\assets\registra-se.png"/>
+</p>
+
+3. **Criar Grupo:**
+   - Inicie grupos de conversa com nomes personalizados.
+   -    <p align="center">
+  <img src="src\assets\groups.png"/>
+</p>
+
+4. **Chat:**
+   - Conversa em tempo real com outros usuários.
+     <p align="center">
+  <img src="src\assets\limpo.png"/>
+</p>
+   <p align="center">
+  <img src="src\assets\send01.png"/>
+</p>
+   <p align="center">
+  <img src="src\assets\send02.png"/>
+</p>
+
+5. **Editar Nome do Grupo:**
+   - Modifique facilmente o nome do grupo.
+</p>
+   <p align="center">
+  <img src="src\assets\edit.png"/>
+</p>
+
+
+
+
+
+
+*Este readme fornece informações cruciais para a utilização do projeto. Em caso de dúvidas , estou à disposição!*
