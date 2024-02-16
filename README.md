@@ -15,6 +15,7 @@
 2. Abra o projeto no seu ambiente de desenvolvimento.
 3. Instale as dependencias.
 4. Execute no CMD NPM RUN DEV.
+5. Teste em abas diferentes ou uma anonima
 
 ## Agradecimentos
 Desde já quero agradecer a oportunidade de fazer parte desse processo, Algo que não consegui finalizar é conversar por sala!
