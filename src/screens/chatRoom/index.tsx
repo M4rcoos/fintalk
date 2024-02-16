@@ -65,7 +65,7 @@ export const ChatRoom = () => {
       name: newName,
     }).then(response => {
       setNewName(response.data.name);
-  
+
     }).catch(error => {
       if (error.response && error.response.data && error.response.data.msg) {
         setError(error.response.data.msg);
@@ -73,7 +73,7 @@ export const ChatRoom = () => {
         setError("Erro na requisição");
       }
     });
- navigate('/home')
+    navigate('/home')
     closeModal();
   };
 
@@ -96,24 +96,30 @@ export const ChatRoom = () => {
       <C.ChatroomSection>
         <C.CardHeader>
           {name}
-          
+
         </C.CardHeader>
         <C.Edit onClick={openModal} style={{ cursor: 'pointer' }}>
-            📝Editar
-          </C.Edit>
+          📝Editar
+        </C.Edit>
         <C.ChatroomContent>
           {messages.map((message, index) => (
             <C.Message key={index}>
               {message.userId === localStorage.getItem('userId') ? (
-                <C.MyMessage>Você: {message.message}</C.MyMessage>
+                <C.contentMyMessage>
+                  <C.MyMessage> <div></div>{message.message}</C.MyMessage>
+
+                </C.contentMyMessage>
               ) : (
-                <C.OtherMessage>
-                  {message.name}: {message.message}
-                </C.OtherMessage>
+                <C.contentOtherMessage>
+                  <C.OtherMessage>
+                    {message.name}: {message.message}<div></div>
+                  </C.OtherMessage>
+                </C.contentOtherMessage>
+
               )}
             </C.Message>
           ))}
-          
+
         </C.ChatroomContent>
         <C.ChatroomActions>
           <Input
@@ -126,17 +132,17 @@ export const ChatRoom = () => {
             Enviar
           </C.ChatroomActionsButton>
           <C.ChatroomDeleteButton onClick={() => {
-    const confirmBox = window.confirm(
-      "Deseja mesmo limpar a conversa?"
-    )
-    if (confirmBox === true) {
-      setMessages([])
-    }
-  }}>
-          limpar conversa
+            const confirmBox = window.confirm(
+              "Deseja mesmo limpar a conversa?"
+            )
+            if (confirmBox === true) {
+              setMessages([])
+            }
+          }}>
+            limpar conversa
           </C.ChatroomDeleteButton>
         </C.ChatroomActions>
-       
+
       </C.ChatroomSection>
 
       <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
@@ -148,8 +154,8 @@ export const ChatRoom = () => {
           onChange={(e) => setNewName(e.target.value)}
         />
         <div style={{ display: 'flex', gap: 18, marginTop: 12 }}>
-          <Button  text="Salvar" onClick={saveNewName} />
-          <Button text="Cancelar" onClick={closeModal}  />
+          <Button text="Salvar" onClick={saveNewName} />
+          <Button text="Cancelar" onClick={closeModal} />
         </div>
       </Modal>
     </C.ChatroomPageWrapper>

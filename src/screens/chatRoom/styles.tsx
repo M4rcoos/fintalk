@@ -42,6 +42,10 @@ export const ChatroomContent = styled.div`
   bottom: 3.5rem;
   padding: 0.5rem;
   overflow: auto;
+  height: 50vh;
+     @media (min-width: 600px) {
+   height: 65vh;
+  }
 `;
 
 export const ChatroomActions = styled.div`
@@ -88,18 +92,41 @@ export const ChatroomDeleteButton = styled.button`
 
 export const Message = styled.div`
   margin-bottom: 0.25rem;
+
 `;
 
-export const OtherMessage = styled.span`
-  color: #0099cc;
+export const OtherMessage = styled.p`
+  color: var(--color-secundary);
   font-weight: bold;
+  text-align: start;
+  padding: 8px;
+  border-radius: 4px;
+border: 1px solid var(--color-secundary);
+
 `;
 
-export const MyMessage = styled.span`
-  color: #00cc00;
+export const MyMessage = styled.p`
+  color: var(--color-primary);
   font-weight: bold;
-`;
+  padding: 8px;
+  border-radius: 4px;
+border: 1px solid var(--color-primary);
 
+`;
+export const contentMyMessage = styled.div`
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  margin-right:0;
+  width: 100%;
+`
+export const contentOtherMessage = styled.div`
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  margin-right:0;
+  width: 100%;
+`
 export const Edit = styled.span`
   text-transform: lowercase;
   padding: 8px;
