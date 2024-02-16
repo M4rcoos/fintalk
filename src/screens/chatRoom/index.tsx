@@ -113,6 +113,7 @@ export const ChatRoom = () => {
               )}
             </C.Message>
           ))}
+          
         </C.ChatroomContent>
         <C.ChatroomActions>
           <Input
@@ -124,7 +125,18 @@ export const ChatRoom = () => {
           <C.ChatroomActionsButton onClick={sendMessage}>
             Enviar
           </C.ChatroomActionsButton>
+          <C.ChatroomDeleteButton onClick={() => {
+    const confirmBox = window.confirm(
+      "Deseja mesmo limpar a conversa?"
+    )
+    if (confirmBox === true) {
+      setMessages([])
+    }
+  }}>
+          limpar conversa
+          </C.ChatroomDeleteButton>
         </C.ChatroomActions>
+       
       </C.ChatroomSection>
 
       <Modal isOpen={isModalOpen} onRequestClose={closeModal}>

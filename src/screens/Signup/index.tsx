@@ -20,8 +20,8 @@ const Signup = () => {
   const navigate = useNavigate();
 
 
-  const handleSignup = async () => {
-    try {
+  const handleSignup =  () => {
+    
       if (!email || !senha || !user || !passConf) {
         setError("Preencha todos os campos");
         return;
@@ -32,20 +32,29 @@ const Signup = () => {
       }
   
   
-      const response = await api.post<ApiResponse>('/auth/register', {
+      api.post<ApiResponse>('/auth/register', {
         name:user,
         email: email,
         password: senha,
         confirmPassword:passConf
-      });
+      }).then(
+        response=>{
+          alert("Usuário cadatrado com sucesso!");
+          console.log(response.data.msg)
+      
+          navigate("/");
+        }
+
+      ).catch(error=>{
+        const msgApi = JSON.parse(error.request.response)
+        if (error.response && error.response.data && error.response.data.msg) {
+          setError(msgApi.msg);
+        } else {
+          setError("Erro na requisição");
+        }
+      })
   
-      alert("Usuário cadatrado com sucesso!");
-      console.log(response.data.msg)
-  
-      navigate("/");
-    } catch (error) {
-      console.error('Erro na requisição:', error);
-    }
+     
   };
 
   return (

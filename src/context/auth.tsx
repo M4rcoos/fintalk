@@ -30,7 +30,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<string>('');
   const [error, setError] = useState<string>("");
   
-  const handleLogin = async (email: string, senha: string) => {
+  const handleLogin =  (email: string, senha: string) => {
      
       if (!email || !senha) {
           setError("Preencha todos os campos");
@@ -46,8 +46,11 @@ function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.setItem('userId', response.data.id);
         navigate('/home')
       }).catch(error => {
+
+
+        const msgApi = JSON.parse(error.request.response)
         if (error.response && error.response.data && error.response.data.msg) {
-          setError(error.response.data.msg);
+          setError(msgApi.msg);
         } else {
           setError("Erro na requisição");
         }

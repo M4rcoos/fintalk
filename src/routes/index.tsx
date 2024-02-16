@@ -8,12 +8,7 @@ import AuthProvider, { AuthContext } from "../context/auth";
 
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
   const { user } = useContext(AuthContext);
-
-  if (user) {
-    return element;
-  } else {
-    return <Navigate to="/" />;
-  }
+  return user != '' ? element:  <Navigate to="/" />;
 };
 
 const RoutesApp: React.FC = () => {

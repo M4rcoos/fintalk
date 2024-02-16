@@ -51,17 +51,17 @@ export const ChatroomActions = styled.div`
   right: 0;
   padding: 0.5rem;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns:  1fr;
   grid-gap: 1rem;
 
+
   @media (min-width: 600px) {
-    grid-template-columns: 1fr 72px;
+    grid-template-columns: 2fr 80px 80px;
   }
 `;
 
 export const ChatroomActionsButton = styled.button`
-  height: 100%;
-  width: 100%;
+ 
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -71,6 +71,16 @@ export const ChatroomActionsButton = styled.button`
     padding: 1rem;
     text-align: center;
   }
+`;
+
+export const ChatroomDeleteButton = styled.button`
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+ border:1px solid var(--color-primary);
+    color: var(--color-secundary);
+
+
 `;
 
 export const Message = styled.div`
