@@ -79,7 +79,10 @@ export const ChatroomDeleteButton = styled.button`
   border-radius: 8px;
  border:1px solid var(--color-primary);
     color: var(--color-secundary);
-
+    @media screen and (max-width: 600px) {
+    padding: 1rem;
+    text-align: center;
+  }
 
 `;
 
